@@ -4,7 +4,24 @@ import numpy as np
 import os 
 import time 
 import random
-import blender
+from util import blender
+
+def cluster_indexes_initializer(l, n):
+    return [i*n for i in range(l)]
+
+def divide_in_subcollections(collection, num_collections, cluster_dims):
+    #this function can be used to divide a collection in subcollections, it will also given the indexes of the initial clusters
+    #correctly initialized
+    cluster_indexes = []
+    collections = []
+    if (len(collection) % num_collections != 0):
+        raise Exception('division is not exact!')
+    num = len(collection) // num_collections
+    for i in range(num_collections):
+        cluster_indexes.append(cluster_indexes_initializer(num, cluster_dims ))
+        collections.append(collection[i*num : (i+1)*num])
+    return collections, cluster_indexes
+
 
 def pick_cluster_ranges(cluster_indexes, p):
         #this function takes as input a list of indexes that indicates where a cluster begins and ends in a collection of images
@@ -18,6 +35,8 @@ def pick_cluster_ranges(cluster_indexes, p):
             extraction = np.random.rand()
             other = np.ceil(extraction*num_clusters)
             if other not in active_clusters: active_clusters.append(int(other))
+            if len(active_clusters) == num_clusters:
+                break
         ranges = []
         for n in active_clusters:
             ranges.append([cluster_indexes[n-1], cluster_indexes[n]])
@@ -57,32 +76,47 @@ def find_largest_factors(n, vertical=True):
 
 def fill_this_box(array, fragment, row, col, w, h):
     res = array
-    b1 = row*w
-    b2= col*h
-    for i in range(0, w):
-        for j in range(0, h):
-            res[b1+i][b2+j]= fragment[i][j]
+    b1 = row*h
+    b2= col*w
+    for i in range(0, h):
+        for j in range(0, w):
+            if b1+i <res.shape[0] and b2+j <res.shape[1] and i<fragment.shape[0] and j<fragment.shape[1]:
+                res[b1+i][b2+j]= fragment[i][j]
+            else:
+                break
     return res
 
 
-def play_and_repurpose(fragments, masks, path, vertical = True):
-    #rememeber this stuff works only if all the fragments have same shape!!!
-    width, height, channels = fragments[0].shape
+def play_and_repurpose(fragments, masks, path, factors = None, vertical = True ):
+    #we chose the maximum size if there are different shapes
+    width = height = 0
+    for fragment in fragments:
+        if(fragment.shape[0] >width) :
+            height =width= fragment.shape[0]
+        if(fragment.shape[1] > height):
+            width= fragment.shape[1]
+    print('maximum height is {} and max width is {}'.format(height, width))
     f1, f2 = find_largest_factors(len(fragments), vertical)
+    if factors:
+        f1, f2 = factors[0], factors[1]
     #we generate a background that can contain all of the images in an ordered manner
-    background = Image.new("RGB", (f1*width, f2*height  ), (0, 0, 0))
-    b_arr = np.array(background)
     print("we explore {} on height and {} on width".format(f2, f1))
+    background = Image.new("RGB", (f1*width, f2*height  ), (0, 0, 0))
+    print('we use a background that will be {} wide and {} high'.format(f1*width, f2*height))
+    b_arr = np.array(background)
+    print('background shape is', b_arr.shape)
+    
     for mask in masks:
         b_arr = np.array(background)
         for i in range(0, f2):
             for j in range(0, f1):
                 #if that box needs to be activated, we fill it
                 index = f1*i+j
-                if index < f1*f2 :
+                if index < len(mask)-1 :
                     if mask[index] == 1:
                         b_arr = fill_this_box(b_arr, fragments[index],  i , j, width, height)
                         
         image = Image.fromarray(b_arr)
         blender.save_result(image, path)
+
         

@@ -27,7 +27,7 @@ def collect_samples(path, num_samples, box_dim):
     for file in os.listdir(path):
         if '.jpg' or '.JPG' in str(file):
             filename = os.path.join(path,file)
-            image = Image.open(filename)
+            image = Image.open(filename).convert('RGB')
             array = np.array(image)     
             width, height , channels = array.shape
             for i in range(num_samples):
@@ -47,7 +47,7 @@ def load_samples(path, resize_width = 0, grayscale=False):
     for file in os.listdir(path):
         if '.jpg' or '.JPG' in str(file):
             filename = os.path.join(path,file)
-            image = Image.open(filename)
+            image = Image.open(filename).convert('RGB')
             w, h = image.size
             if resize_width == 0:
                 resized = image.resize((int(w/3), int(h/3)), Image.BICUBIC)
