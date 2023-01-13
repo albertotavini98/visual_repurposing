@@ -7,7 +7,8 @@ import random
 from util import blender
 
 def cluster_indexes_initializer(l, n):
-    return [i*n for i in range(l)]
+    array = [i*n for i in range(l)] + [l*n]
+    return array
 
 def divide_in_subcollections(collection, num_collections, cluster_dims):
     #this function can be used to divide a collection in subcollections, it will also given the indexes of the initial clusters
@@ -52,7 +53,7 @@ def compose_visual_melody( num_generations, cluster_indexes, p1, p2):
     for i in range(num_generations):
         ranges = pick_cluster_ranges( cluster_indexes, p1)
         mask =np.zeros(cluster_indexes[-1])
-        print('we used the ranges', ranges)
+        print('we used the ranges', sorted(ranges))
         for couple in ranges:
             start = couple[0]
             end = couple[1]
@@ -96,9 +97,11 @@ def play_and_repurpose(fragments, masks, path, factors = None, vertical = True )
         if(fragment.shape[1] > height):
             width= fragment.shape[1]
     print('maximum height is {} and max width is {}'.format(height, width))
-    f1, f2 = find_largest_factors(len(fragments), vertical)
+    
     if factors:
         f1, f2 = factors[0], factors[1]
+    else: 
+        f1, f2 = find_largest_factors(len(fragments), vertical)
     #we generate a background that can contain all of the images in an ordered manner
     print("we explore {} on height and {} on width".format(f2, f1))
     background = Image.new("RGB", (f1*width, f2*height  ), (0, 0, 0))
@@ -112,8 +115,8 @@ def play_and_repurpose(fragments, masks, path, factors = None, vertical = True )
             for j in range(0, f1):
                 #if that box needs to be activated, we fill it
                 index = f1*i+j
-                if index < len(mask)-1 :
-                    if mask[index] == 1:
+                if index < len(mask):
+                    if mask[index] == 1: 
                         b_arr = fill_this_box(b_arr, fragments[index],  i , j, width, height)
                         
         image = Image.fromarray(b_arr)
