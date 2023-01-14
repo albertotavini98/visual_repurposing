@@ -7,7 +7,7 @@ import random
 from util import blender
 
 def cluster_indexes_initializer(l, n):
-    array = [i*n for i in range(l)] + [l*n]
+    array = [i*n for i in range(l//n +1)] 
     return array
 
 def divide_in_subcollections(collection, num_collections, cluster_dims):
