@@ -5,6 +5,10 @@ Here you can find some video edits i created with the generated images:
 
 https://youtube.com/shorts/y3PHcIbA6dc?feature=share
 
+https://youtube.com/shorts/eanKiusmeQI?feature=share
+
+
+
 There is also an application of K-means clustering as to group the pieces that we then glue to the background chromatically speaking. We use the average on the RGB channels as three features for clustering input.
 
 Here you can see a plotting of results of a clustering and the corresponding ordered image fragments.
