@@ -4,9 +4,7 @@ This is a python repository with some code i developed for "visual repurposing",
 Here you can find some video edits i created with the generated images:
 
 https://youtube.com/shorts/y3PHcIbA6dc?feature=share
-
 https://youtube.com/shorts/eanKiusmeQI?feature=share
-
 https://youtube.com/shorts/Ffv_EbCxHVQ?feature=share
 
 
