@@ -17,7 +17,7 @@ Here you can see a plotting of results of a clustering and the corresponding ord
 ![Image not available!](readme_images/clustering_plot.png)
 ![Image not available!](readme_images/output.png)
 
-Here an example of RGB channel mixing from different sources (see use_RGB_forge.ipynb):
+Here an example of RGB channel mixing from different sources:
 
 ![Image not available!](readme_images/channel_messing.png)
 
