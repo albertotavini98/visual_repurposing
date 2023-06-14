@@ -7,6 +7,7 @@ https://youtube.com/shorts/y3PHcIbA6dc?feature=share
 
 https://youtube.com/shorts/eanKiusmeQI?feature=share
 
+https://youtube.com/shorts/Ffv_EbCxHVQ?feature=share
 
 
 There is also an application of K-means clustering as to group the pieces that we then glue to the background chromatically speaking. We use the average on the RGB channels as three features for clustering input.
