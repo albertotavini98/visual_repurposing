@@ -20,10 +20,10 @@ def RGB_substitution(im1, im2, im3, order=[1,2,3]):
     arr2 = np.array(im2_bw)
     arr3 = np.array(im3_bw)
     arr_rgb = np.stack((arr1, arr2, arr3), axis=-1)
-    plt.figure(figsize=(9, 9))
+    plt.figure(figsize=(12, 12))
     plt.imshow(arr_rgb)
     im_rgb = Image.fromarray(arr_rgb).convert('L')
-    plt.figure(figsize=(9, 9))
+    plt.figure(figsize=(12, 12))
     plt.imshow(im_rgb, cmap='gray')
 
     plt.figure()
