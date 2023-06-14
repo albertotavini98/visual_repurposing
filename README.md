@@ -11,7 +11,7 @@ https://youtube.com/shorts/hMBZs5K-eFo?feature=share
 https://youtube.com/shorts/THFb6vlu92Y?feature=share   (Westworld inspired)
 
 
-There is also an application of K-means clustering as to group the pieces that we then glue to the background chromatically speaking. We use the average on the RGB channels as three features for clustering input.  
+There is also an application of K-means clustering as to group the pieces that we then glue to the background. We use the average on the RGB channels as three features for clustering input.  
 Here you can see a plotting of results of a clustering and the corresponding ordered image fragments.
 
 ![Image not available!](readme_images/clustering_plot.png)
