@@ -5,9 +5,10 @@ import os
 import time 
 import random
 
-#this function gets the number of tics since 01/01/1970
+
 #so it will save results naming them with increasing numbers as dates and hours pass
 def save_result(img, folder):
+    #this function gets the number of tics since 01/01/1970
     now = int(time.time())
     os.makedirs('results\\'+folder, exist_ok=True)
     out_path = 'results\\'+folder+'\\'+str(now)+'.JPG'
@@ -22,6 +23,7 @@ def get_frame_starters(w, h, l):
     
     return x, y
 
+#this fuinction is mmeant to load square pieces from images which are box_dim by box_dim in dimension
 def collect_samples(path, num_samples, box_dim):
     fragments = []
     for file in os.listdir(path):
@@ -41,7 +43,7 @@ def collect_samples(path, num_samples, box_dim):
 
     print('num of fragments is ', len(fragments))
     return fragments
-
+#this function is meant to load entire images for repurposing
 def load_samples(path, resize_width = 0, grayscale=False):
     fragments = []
     for file in os.listdir(path):
@@ -60,6 +62,7 @@ def load_samples(path, resize_width = 0, grayscale=False):
     print('we have collected samples', len(fragments))
     return fragments
 
+#this function is just to draw the samples in an ordinate way
 def plot_samples(fragments):
     l = len(fragments)
     n = int(np.sqrt(l) ) +1
@@ -70,6 +73,7 @@ def plot_samples(fragments):
         plt.imshow(fragment)
         plt.title('fragment '+str(i))
 
+#this function check if we are not in the preserve box of the images and returns true
 def can_we_draw_here(x, y, borders):
     l = len(borders)
     if l == 0: return True
@@ -83,9 +87,10 @@ def can_we_draw_here(x, y, borders):
     
     return True
 
-
-def repurpose_fragments( fragments,  base, num,  borders, box_dim, obscure = False, reutilize = False):
-    random.shuffle(fragments)
+#this function is called to place fragments of other images collected through the collect_samples function, 
+#so it only works with square images of box_dim by box_dim shape
+def repurpose_fragments( fragments,  base, num,  preserve, box_dim, obscure = False, reutilize = False):
+    #random.shuffle(fragments)
     width, height, channels = base.shape
     to_use = fragments[:num]
     if reutilize :
@@ -97,13 +102,13 @@ def repurpose_fragments( fragments,  base, num,  borders, box_dim, obscure = Fal
     
         for i in range(box_dim-1):
             for j in range(box_dim-1):
-                if can_we_draw_here(x+i, y+j, borders) or obscure:
+                if can_we_draw_here(x+i, y+j, preserve) or obscure:
                     base[x+i][y+j] = 0 if obscure else fragment[i][j]
 
     new_image = Image.fromarray(base)
     return new_image, remaining
     
-
+#this function is meant to draw entire images on the base image, so it is flexible and allows also images that are not square
 def repurpose_images( fragments,  base, num, borders, obscure = False, reutilize = False):
     width, height, channels = base.shape
     #we take the first elements and return the rest
@@ -141,6 +146,7 @@ def reorder_by_indexes(arr,indexes):
  
     return temp
 
+#function that computes for a set of fragments the average on each of the RGB averages and returns them
 def get_rgb_averages(fragments, as_list=False):
    
     rgb_averages = None
@@ -165,6 +171,7 @@ def get_rgb_averages(fragments, as_list=False):
     
     return rgb_averages
 
+#a utility function that i don't remember correctly why it does stuff it does and where should it be used, maybe it's usless now
 def sort_by_colour_averages(fragments, do_print=False):
     rgb_averages = get_rgb_averages(fragments)
 
@@ -185,6 +192,8 @@ def sort_by_colour_averages(fragments, do_print=False):
     frags_by_blue = reorder_by_indexes(fragments, blue_indexes)
     return frags_by_red, frags_by_green, frags_by_blue
 
+
+#function to do clustering based on the RGB averages of the images
 def Kmeans_sort_by_RGB_averages(fragments, num_clusters):
     from sklearn.cluster import KMeans
 
