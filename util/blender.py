@@ -35,7 +35,7 @@ def collect_samples(path, num_samples, box_dim):
             for i in range(num_samples):
                 x , y = get_frame_starters(width, height, box_dim)
             
-                fragment = image.crop((x, x, x+box_dim, x+box_dim))
+                fragment = image.crop((x, y, x+box_dim, x+box_dim))
                 fragment = np.array(fragment)
                 fragments.append(fragment)
             
