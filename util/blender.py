@@ -34,8 +34,8 @@ def collect_samples(path, num_samples, box_dim):
             width, height , channels = array.shape
             for i in range(num_samples):
                 x , y = get_frame_starters(width, height, box_dim)
-            
-                fragment = image.crop((x, y, x+box_dim, x+box_dim))
+                #check if here it is correct y+box_dim or it should be as it was before x+box_dim ( i had bugs and i blindly fixed it)
+                fragment = image.crop((x, y, x+box_dim, y+box_dim))
                 fragment = np.array(fragment)
                 fragments.append(fragment)
             
@@ -74,16 +74,30 @@ def plot_samples(fragments):
         plt.title('fragment '+str(i))
 
 #this function check if we are not in the preserve box of the images and returns true
+#added more than one preserve box functioning, in that case we need a list of 4 int lists
 def can_we_draw_here(x, y, borders):
-    l = len(borders)
-    if l == 0: return True
-    #each of the preserve boxes must have four coordinates
-    if l % 4 != 0:
-        raise Exception('the borders of the preserve box are not a multiple of four')
-    #if we are in one of the boxes that need to be preserved, we return false
-    for i in range(0, l, 4):
-        if borders[i]< x < borders[i+1] and borders[i+2] < y < borders[i+3]: 
-            return False
+    if type(borders[0]) == int:
+        l = len(borders)
+        if l == 0: return True
+        #each of the preserve boxes must have four coordinates
+        if l % 4 != 0:
+            raise Exception('the borders of the preserve box are not a multiple of four')
+        #if we are in one of the boxes that need to be preserved, we return false
+        for i in range(0, l, 4):
+            if borders[i]< x < borders[i+1] and borders[i+2] < y < borders[i+3]: 
+                return False
+    elif type(borders[0]) == list:
+        for single_border in borders:
+            l = len(single_border)
+            if l == 0: return True
+            #each of the preserve boxes must have four coordinates
+            if l % 4 != 0:
+                raise Exception('the borders of the preserve box are not a multiple of four')
+            #if we are in one of the boxes that need to be preserved, we return false
+            for i in range(0, l, 4):
+                if single_border[i]< x < single_border[i+1] and single_border[i+2] < y < single_border[i+3]: 
+                    return False
+
     
     return True
 

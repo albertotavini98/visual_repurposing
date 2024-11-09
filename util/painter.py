@@ -9,12 +9,7 @@ import random
 import io
 from util import blender, pianoforte
 
-def save_painting(plt, folder):
-    now = int(time.time())
-    os.makedirs('results\\'+folder, exist_ok=True)
-    out_path = 'results\\'+folder+'\\'+str(now)+'.png'
-    print('saved ',out_path)
-    plt.savefig(out_path, format='png', dpi = 200, bbox_inches='tight', pad_inches=0)
+    
 
 
 def fillWithCircles(fig, ax, begin,  side_dim, distance, radius, color):
