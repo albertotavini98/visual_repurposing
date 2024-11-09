@@ -31,7 +31,7 @@ def collect_samples(image, box_dim, num_samples):
     return fragments
 
 def repurpose(base, fragments, box_dim, preserve_box, obscure = False):
-    width, height , channels = base.shape
+    height, width, channels = base.shape
     for fragment in fragments:
         x, y = get_frame_starters(width, height, box_dim)
     

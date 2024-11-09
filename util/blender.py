@@ -31,7 +31,7 @@ def collect_samples(path, num_samples, box_dim):
             filename = os.path.join(path,file)
             image = Image.open(filename).convert('RGB')
             array = np.array(image)     
-            width, height , channels = array.shape
+            height ,width, channels = array.shape
             for i in range(num_samples):
                 x , y = get_frame_starters(width, height, box_dim)
                 #check if here it is correct y+box_dim or it should be as it was before x+box_dim ( i had bugs and i blindly fixed it)
@@ -166,7 +166,7 @@ def get_rgb_averages(fragments, as_list=False):
     rgb_averages = None
     if not as_list:
         for frag in fragments:
-            width, height, channels = frag.shape
+            width, height,  channels = frag.shape
             red = frag[:,:,0]
             green = frag[:,:,1]
             blue = frag[:,:,2]
