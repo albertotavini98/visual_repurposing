@@ -17,7 +17,7 @@ Here you can see a plotting of results of a clustering and the corresponding ord
 ![Image not available!](readme_images/clustering_plot.png)
 ![Image not available!](readme_images/output.png)
 
-Here an example of RGB channel mixing from different sources:
+I also messed around with RGB channels of images, creating pieces like: 
 
 ![Image not available!](readme_images/channel_messing.png)
 
