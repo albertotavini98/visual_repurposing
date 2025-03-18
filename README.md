@@ -1,7 +1,8 @@
 # Visual Repurposing
 This is a python repository meant to perform "visual repurposing", an algorithmic equivalent of what pop art exponents used to do: combine pieces of already existing art to create new art. It is meant to extract pieces of pictures and combine them on a background as to create visually stimulating images.  
 
-There is also a notebook to automatically sync the images to an audio track and create edits with the pieces. Here you can see some of the results:
+There is also a notebook to automatically sync the images to an audio track and create edits with the pieces. Here you can see some of the results
+
 Random:   
 https://youtube.com/shorts/y3PHcIbA6dc?feature=share  
 https://youtube.com/shorts/eanKiusmeQI?feature=share  
